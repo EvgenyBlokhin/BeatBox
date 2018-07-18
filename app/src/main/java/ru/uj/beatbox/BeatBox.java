@@ -23,6 +23,7 @@ public class BeatBox {
     private AssetManager mAssets;
     private List<Sound> mSounds = new ArrayList<>();
     private SoundPool mSoundPool;
+    private float mSoundRate;
 
     public BeatBox(Context context) {
         mAssets = context.getAssets();
@@ -35,7 +36,7 @@ public class BeatBox {
         if (soundId == null) {
             return;
         }
-        mSoundPool.play(soundId,1.0f, 1.0f, 1, 0, 1.0f);
+        mSoundPool.play(soundId,1.0f, 1.0f, 1, 0, mSoundRate);
     }
 
     public void release() {
@@ -71,5 +72,9 @@ public class BeatBox {
     }
     public List<Sound> getSounds() {
         return mSounds;
+    }
+
+    public void setSoundRate(float soundRate) {
+        mSoundRate = soundRate/100;
     }
 }

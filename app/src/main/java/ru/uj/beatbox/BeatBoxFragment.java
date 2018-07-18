@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 
 import java.util.List;
 
@@ -40,22 +40,25 @@ public class BeatBoxFragment extends Fragment {
         FragmentBeatBoxBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_beat_box, container, false);
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         binding.recyclerView.setAdapter(new SoundAdapter(mBeatBox.getSounds()));
-//        binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//                setRate(i);
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
+        SeekBar seekBar = getActivity().findViewById(R.id.seek_bar);
+        seekBar.setProgress(100);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                mBeatBox.setSoundRate(i);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                mBeatBox.setSoundRate(seekBar.getProgress());
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mBeatBox.setSoundRate(seekBar.getProgress());
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -63,10 +66,6 @@ public class BeatBoxFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         mBeatBox.release();
-    }
-
-    public void setRate(int i) {
-        Log.i("TAG", i + "");
     }
 
     private class SoundHolder extends RecyclerView.ViewHolder {
