@@ -18,7 +18,7 @@ public class BeatBox {
     private static final String TAG = "BeatBox";
 
     private static final String SOUND_FOLDER = "sample_sounds";
-    private static final int MAX_SOUNDS = 5;
+    private static final int MAX_SOUNDS = 1;
 
     private AssetManager mAssets;
     private List<Sound> mSounds = new ArrayList<>();
@@ -75,6 +75,7 @@ public class BeatBox {
     }
 
     public void setSoundRate(float soundRate) {
-        mSoundRate = soundRate/100;
+        mSoundRate = soundRate == 0.0f ? 0.1f : soundRate/10;
+        Log.i("TAG", String.valueOf(mSoundRate));
     }
 }
