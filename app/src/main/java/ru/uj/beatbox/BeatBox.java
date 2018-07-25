@@ -3,10 +3,10 @@ package ru.uj.beatbox;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.media.AudioManager;
-import android.media.SoundPool;
+import android.media.MediaPlayer;
 import android.util.Log;
 
+import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,34 +18,44 @@ public class BeatBox {
     private static final String TAG = "BeatBox";
 
     private static final String SOUND_FOLDER = "sample_sounds";
-    private static final int MAX_SOUNDS = 1;
+//    private static final int MAX_SOUNDS = 1;
 
     private AssetManager mAssets;
     private List<Sound> mSounds = new ArrayList<>();
-    private SoundPool mSoundPool;
-//    private MediaPlayer mMediaPlayer;
-    private float mSoundRate;
+//    private SoundPool mSoundPool;                         // Все закоментированное для SoundPool
+    private MediaPlayer mMediaPlayer;
+//    private float mSoundRate;
 
     public BeatBox(Context context) {
         mAssets = context.getAssets();
-        mSoundPool = new SoundPool(MAX_SOUNDS, AudioManager.STREAM_MUSIC,0);
-//        mMediaPlayer = new MediaPlayer();
-//        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//        mSoundPool = new SoundPool(MAX_SOUNDS, AudioManager.STREAM_MUSIC,0);
+        mMediaPlayer = new MediaPlayer();
         loadSounds();
     }
 
     public void play(Sound sound) {
-        Integer soundId = sound.getSoundId();
-        if (soundId == null) {
-            return;
+//        Integer soundId = sound.getSoundId();
+//        if (soundId == null) {
+//            return;
+//        }
+//        mSoundPool.play(soundId,1.0f, 1.0f, 1, 0, mSoundRate);
+//        mMediaPlayer = MediaPlayer.create(this, mAssets. );
+
+        try {
+            mMediaPlayer.reset();
+            AssetFileDescriptor afd = mAssets.openFd(sound.getAssetPath());
+            FileDescriptor fd = afd.getFileDescriptor();
+            mMediaPlayer.setDataSource(fd, afd.getStartOffset(), afd.getLength());
+            mMediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        mSoundPool.play(soundId,1.0f, 1.0f, 1, 0, mSoundRate);
-//        mMediaPlayer = MediaPlayer.create(this, );
-//        mMediaPlayer.start();
+        mMediaPlayer.start();
     }
 
     public void release() {
-        mSoundPool.release();
+//        mSoundPool.release();
+        mMediaPlayer.release();
     }
 
     private void loadSounds() {
@@ -59,34 +69,32 @@ public class BeatBox {
         }
         for (String filename :
                 soundNames) {
-            try {
+//            try {
                 String assetPath = SOUND_FOLDER + "/" + filename;
                 Sound sound = new Sound(assetPath);
-                load(sound);
+//                load(sound);
                 mSounds.add(sound);
-            } catch (IOException ioe) {
-                Log.e(TAG, "Could not load sound " + filename, ioe);
-            }
+//            } catch (IOException ioe) {
+//                Log.e(TAG, "Could not load sound " + filename, ioe);
+//            }
         }
     }
 
-    private void load(Sound sound) throws IOException {
-        AssetFileDescriptor afd = mAssets.openFd(sound.getAssetPath());
-//        FileDescriptor fd = afd.getFileDescriptor();
-//        mMediaPlayer.setDataSource(fd);
+//    private void load(Sound sound) throws IOException {
+//        AssetFileDescriptor afd = mAssets.openFd(sound.getAssetPath());
 //        int ID = mMediaPlayer.getAudioSessionId();
-        int soundId = mSoundPool.load(afd, 1);
-        Log.i("TAG_ID", String.valueOf(soundId));
+//        int soundId = mSoundPool.load(afd, 1);
+//        Log.i("TAG_ID", String.valueOf(soundId));
 //        Log.i("TAG_ID", String.valueOf(ID));
 //        int soundId = mMediaPlayer.
-        sound.setSoundId(soundId);
-    }
+//        sound.setSoundId(soundId);
+//    }
     public List<Sound> getSounds() {
         return mSounds;
     }
 
-    public void setSoundRate(float soundRate) {
-        mSoundRate = soundRate == 0.0f ? 0.1f : soundRate/10;
-        Log.i("TAG", String.valueOf(mSoundRate));
-    }
+//    public void setSoundRate(float soundRate) {
+//        mSoundRate = soundRate == 0.0f ? 0.1f : soundRate/10;
+//        Log.i("TAG", String.valueOf(mSoundRate));
+//    }
 }

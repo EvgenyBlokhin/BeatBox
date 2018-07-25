@@ -9,12 +9,12 @@
         android:orientation="horizontal">
     </LinearLayout>
 
-    <SeekBar
-        android:id="@+id/seek_bar"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:max="10"
-        android:progress="10" />
+    <!--<SeekBar-->
+        <!--android:id="@+id/seek_bar"-->
+        <!--style="@style/Widget.AppCompat.SeekBar.Discrete"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:max="10"-->
+        <!--android:progress="10" />-->
 </FrameLayout>
