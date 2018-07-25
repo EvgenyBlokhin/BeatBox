@@ -16,5 +16,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:max="10"
-        android:progress="3" />
+        android:progress="10" />
 </FrameLayout>

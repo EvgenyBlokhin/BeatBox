@@ -23,11 +23,14 @@ public class BeatBox {
     private AssetManager mAssets;
     private List<Sound> mSounds = new ArrayList<>();
     private SoundPool mSoundPool;
+//    private MediaPlayer mMediaPlayer;
     private float mSoundRate;
 
     public BeatBox(Context context) {
         mAssets = context.getAssets();
         mSoundPool = new SoundPool(MAX_SOUNDS, AudioManager.STREAM_MUSIC,0);
+//        mMediaPlayer = new MediaPlayer();
+//        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         loadSounds();
     }
 
@@ -37,6 +40,8 @@ public class BeatBox {
             return;
         }
         mSoundPool.play(soundId,1.0f, 1.0f, 1, 0, mSoundRate);
+//        mMediaPlayer = MediaPlayer.create(this, );
+//        mMediaPlayer.start();
     }
 
     public void release() {
@@ -67,7 +72,13 @@ public class BeatBox {
 
     private void load(Sound sound) throws IOException {
         AssetFileDescriptor afd = mAssets.openFd(sound.getAssetPath());
+//        FileDescriptor fd = afd.getFileDescriptor();
+//        mMediaPlayer.setDataSource(fd);
+//        int ID = mMediaPlayer.getAudioSessionId();
         int soundId = mSoundPool.load(afd, 1);
+        Log.i("TAG_ID", String.valueOf(soundId));
+//        Log.i("TAG_ID", String.valueOf(ID));
+//        int soundId = mMediaPlayer.
         sound.setSoundId(soundId);
     }
     public List<Sound> getSounds() {
