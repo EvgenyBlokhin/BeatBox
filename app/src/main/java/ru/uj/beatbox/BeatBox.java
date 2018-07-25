@@ -22,7 +22,7 @@ public class BeatBox {
 
     private AssetManager mAssets;
     private List<Sound> mSounds = new ArrayList<>();
-//    private SoundPool mSoundPool;                         // Все закоментированное для SoundPool
+//    private SoundPool mSoundPool;                         // Все закомментированное для SoundPool
     private MediaPlayer mMediaPlayer;
 //    private float mSoundRate;
 
